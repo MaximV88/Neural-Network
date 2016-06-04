@@ -10,6 +10,8 @@
 #include "Perceptron.hpp"
 #include "Data.hpp"
 #include <vector>
+#include <string>
+#include <sstream>
 
 using namespace neural;
 
@@ -27,6 +29,13 @@ public:
      * @param previous      The previous network that the new one is connected to.
      */
     Impl(size_t perceptrons, Network::Impl* previous = nullptr);
+    
+    /**
+     * Constructor.
+     *
+     * @param The serialized string that was given from a network.
+     */
+    Impl(const std::string& serialized);
     
     /**
      * Adds a network to the last network in the chained networks.
@@ -83,6 +92,15 @@ public:
      */
     std::vector<double> Sum(const std::vector<double>& data) const;
     
+    /**
+     * Outputs the network into a format that can later
+     * be loaded to recreate the setup and weights (in
+     * case it was trained).
+     *
+     * @return The serialized version of the network.
+     */
+    std::string Serialize() const;
+    
 private:
     
     ///Stores all the perceptrons in the network
@@ -109,6 +127,36 @@ m_previous(previous) {
         size_t number_of_connections = (m_previous) ? m_previous->m_perceptrons.size() : 784;
         
         m_perceptrons.push_back(std::unique_ptr<Perceptron>(new Perceptron(number_of_connections, 0.25)));
+    }
+}
+
+Network::Impl::Impl(const std::string& serialized) {
+    
+    //Deserialize the input manually for networks
+    std::stringstream string_stream(serialized);
+    
+    std::string read_line;
+    std::getline(string_stream, read_line);
+    size_t network_size = std::stoul(read_line);
+    
+    for (size_t index = 0 ; index < network_size ; index++) {
+        
+        std::getline(string_stream, read_line);
+        m_perceptrons.push_back(std::unique_ptr<Perceptron>(new Perceptron(read_line)));
+        
+    }
+    
+    /*
+     * Cut the serialized string away and send the rest to the next network.
+     * A good implementation should use string iterators to avoid copying
+     * but not done since this is outside of the home work's scope.
+     */
+    std::string next_network = serialized.substr(string_stream.tellg());
+    
+    if (!next_network.empty()) {
+        
+        m_next = new Network::Impl(next_network);
+        m_next->m_previous = this;
     }
 }
 
@@ -200,10 +248,33 @@ std::vector<double> Network::Impl::Sum(const std::vector<double>& data) const {
     return results;
 }
 
+std::string Network::Impl::Serialize() const {
+    
+    /*
+     * The current network needs to be serialized before it's
+     * next layer. In this way it is possible to deserialize 
+     * according to construction order.
+     */
+    std::string serialized = std::to_string(m_perceptrons.size()) + '\n';
+    for (size_t index = 0, total = m_perceptrons.size() ; index < total ; index++) {
+        serialized += m_perceptrons[index]->Serialize() + '\n';
+    }
+    
+    //Add the next layer
+    if (m_next)
+        serialized += m_next->Serialize();
+    
+    return serialized;
+}
+
 #pragma mark - Network functions
 
 Network::Network(size_t perceptrons) :
 m_pimpl(new Impl(perceptrons))
+{ }
+
+Network::Network(const std::string& serialized) :
+m_pimpl(new Impl(serialized))
 { }
 
 Network::~Network() = default;
@@ -218,4 +289,8 @@ std::vector<double> Network::Feed(const Data& data) const {
 
 void Network::Train(const neural::Data &data, const neural::Data &target) {
     m_pimpl->Train(data, target);
+}
+
+std::string Network::Serialize() const {
+    return m_pimpl->Serialize();
 }

@@ -123,7 +123,8 @@ double Trainer::Impl::Train(double percentage,
                 << std::setprecision(3)
                 << "correct:"
                 << correct / static_cast<double>(index - train_limit) * 100
-                << "%\t\t\toverall progress: " << (index - train_limit) / static_cast<double>(validate_limit) * 100.0 << "%\n";
+                << "%\t\t\toverall progress: " << (index - train_limit) / static_cast<double>(validate_limit) * 100.0
+                << "%\n";
             
         }
     }
@@ -169,7 +170,8 @@ double Trainer::Impl::Test(const std::string &test_file_path,
             << std::setprecision(3)
             << "correct:"
             << correct / static_cast<double>(all_values) * 100
-            << "%\t\t\toverall progress: " << index / static_cast<double>(all_values) * 100.0 << "%\n";
+            << "%\t\t\toverall progress: " << index / static_cast<double>(all_values) * 100.0
+            << "%\n";
     }
 
     return correct / static_cast<double>(RecordsInFile(test_file_path));

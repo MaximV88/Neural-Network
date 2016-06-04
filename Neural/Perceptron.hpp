@@ -27,6 +27,13 @@ public:
     Perceptron(size_t weights_count, double learning_constant = 0.01, double bias = 1.0);
     
     /**
+     * Constructor.
+     *
+     * @param serialized The serialized perceptron.
+     */
+    Perceptron(const std::string& serialized);
+    
+    /**
      * Recieves input and returns the the sum.
      *
      * @param input     The input to calculate (either all of the previous perceptron's 
@@ -45,7 +52,15 @@ public:
      * @param omicron The omicron (output) of the previous layer.
      */
     void Train(double delta, const std::vector<double>& omicron);
-        
+    
+    /**
+     * Outputs the perceptron into a format that can later
+     * be loaded to recreate the setup and weights.
+     *
+     * @return The serialized version of the perceptron.
+     */
+    std::string Serialize() const;
+    
     //The random generator.
     RandomGenerator m_generator;
     

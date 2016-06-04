@@ -8,6 +8,7 @@
 
 #include "Perceptron.hpp"
 #include <math.h>
+#include <string>
 
 NAMESPACE_NEURAL_BEGIN
 
@@ -33,6 +34,23 @@ m_generator(-1.0, 1.0) {
         m_weights.push_back(m_generator.Random());
 }
 
+Perceptron::Perceptron(const std::string& serialized) {
+    
+    //Deserialize manually
+    size_t delimiter_index = serialized.find_first_of(':');
+    size_t weights_count = std::stoul(std::string(serialized.begin(), serialized.begin() + delimiter_index));
+    m_weights.reserve(weights_count);
+    
+    for (size_t index = 0 ; index < weights_count ; index++) {
+        
+        size_t new_delimiter_index = serialized.find_first_of(',', delimiter_index);
+        double weight_value = std::stod(std::string(serialized.begin() + delimiter_index + 1, serialized.begin() + new_delimiter_index));
+        m_weights.push_back(weight_value);
+        
+        delimiter_index = new_delimiter_index + 1;
+    }
+}
+
 double Perceptron::Feed(const std::vector<double> &input) const {
     
     double sum = 0.0;
@@ -54,5 +72,17 @@ void Perceptron::Train(double delta, const std::vector<double> &omicron) {
     m_bias += -m_learning_constant * delta;
     
 }
+
+std::string Perceptron::Serialize() const {
     
+    std::string serialized = std::to_string(m_weights.size()) + ':';
+    for (size_t index = 0, total = m_weights.size() ; index < total ; index++) {
+        serialized += std::to_string(m_weights[index]);
+        
+        //Add a delimiter for later deserialization
+        serialized += ',';
+    }
     
+    return serialized;
+}
+

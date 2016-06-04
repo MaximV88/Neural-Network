@@ -31,6 +31,13 @@ public:
     Network(size_t perceptrons);
     
     /**
+     * Constructor.
+     *
+     * @param The serialized string that was given from a network.
+     */
+    Network(const std::string& serialized);
+    
+    /**
      * Adds a network to the last network in the chained networks.
      * 
      * @param perceptrons   The number of perceptrons that the added network
@@ -53,6 +60,15 @@ public:
      * @param target    The values that the network should reach.
      */
     void Train(const Data& data, const Data& target);
+    
+    /**
+     * Outputs the network into a format that can later
+     * be loaded to recreate the setup and weights (in 
+     * case it was trained).
+     *
+     * @return The serialized version of the network.
+     */
+    std::string Serialize() const;
 
     /**
      * Destructor.
