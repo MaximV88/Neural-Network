@@ -33,6 +33,8 @@ OperationalNetwork* OperationalNetwork::Deserialize(const std::string &serialize
     return nullptr;
 }
 
+OperationalNetwork::~OperationalNetwork() = default;
+
 std::string OperationalNetwork::Serialize() const {
     
     std::string serialized;

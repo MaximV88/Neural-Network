@@ -36,15 +36,12 @@ double Trainer::Train(double percentage,
          data.Valid() && results.Valid() ;
          data.Next(), results.Next(), index++) {
         
-        //Simplify data
-        Data modified_data = ConformData(data.Value());
-        
         size_t real_value = static_cast<size_t>(lround(results.Value().content.front()));
         
         if (index < train_limit) {
             
             //Training session
-            train_handler(modified_data, real_value);
+            train_handler(data.Value(), real_value);
             
             if (log && index % (train_limit / 100) == 0)
                 std::cout
@@ -57,7 +54,7 @@ double Trainer::Train(double percentage,
         else {
             
             //Validation session
-            if (real_value == static_cast<size_t>(lround(answer_handler(modified_data))))
+            if (real_value == static_cast<size_t>(lround(answer_handler(data.Value()))))
                 ++correct;
             
             if (log && (index - train_limit) % (validate_limit / 100) == 0)
@@ -90,7 +87,7 @@ double Trainer::Test(const std::string &test_file_path,
          test_iterator.Valid() && key_iterator.Valid() ;
          test_iterator.Next(), key_iterator.Next(), ++index) {
         
-        double result = answer_handler(ConformData(test_iterator.Value()));
+        double result = answer_handler(test_iterator.Value());
         
         size_t real_value = static_cast<size_t>(lround(key_iterator.Value().content.front()));
         

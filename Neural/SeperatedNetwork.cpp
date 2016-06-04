@@ -8,6 +8,10 @@
 
 #include "SeperatedNetwork.hpp"
 #include "Network.hpp"
+#include "Trainer.hpp"
+#include "DataIterator.hpp"
+#include <iomanip>
+#include <iostream>
 
 using namespace neural;
 
@@ -85,10 +89,117 @@ SeperatedNetwork::Impl::Impl() {
 
 SeperatedNetwork::Impl::Impl(const std::string& serialized) {
     
+    //The networks are seperated by the delimiter '!' - at least one is at the start with '\n'
+    size_t network_start = 2;
+    
+    for (size_t index = 0 ; index < 10 ; index++) {
+        
+        size_t network_end = serialized.find_first_of('!', network_start);
+        
+        m_networks.push_back(std::unique_ptr<Network>(new Network(serialized.substr(network_start, network_end - network_start))));
+        network_start = network_end + 2;
+    }
 }
 
 std::string SeperatedNetwork::Impl::Serialize() const {
-    return std::string();
+
+    std::string serialized;
+    
+    //Seperate the networks by a delimiter '!'
+    for (size_t index = 0 ; index < 10 ; index++)
+        serialized += '!' + m_networks[index]->Serialize();
+    
+    return serialized;
+}
+
+std::string SeperatedNetwork::Impl::Estimate(const std::string &data_file_path, bool log) const {
+    
+    size_t index = 0;
+    size_t all_values = RecordsInFile(data_file_path);
+    
+    std::string output;
+    
+    //Reserve the values themselfs and another '\n' character
+    output.reserve(all_values * 2);
+    
+    //Set attribute for logging
+    if (log) { std::cout << std::fixed; }
+    
+    for (DataIterator test_iterator(data_file_path) ;
+         test_iterator.Valid() ;
+         test_iterator.Next(), ++index) {
+        
+        size_t max_pos = 0;
+        double max_value = 0.0;
+        
+        //Find maximal value by network index
+        for (size_t network_index = 0 ; network_index < 10 ; network_index++) {
+            
+            double result = m_networks[network_index]->Feed(ConformData(test_iterator.Value())).front();
+            if (result > max_value) {
+                max_value = result;
+                max_pos = network_index;
+            }
+        }
+        
+        output += std::to_string(max_pos) + '\n';
+        
+        //Logging
+        if (log && index % (all_values / 100) == 0)
+            std::cout
+            << std::setprecision(3)
+            << "overall progress: "
+            << index / static_cast<double>(all_values) * 100
+            << "%\n";
+    }
+    
+    return output;
+}
+
+void SeperatedNetwork::Impl::Train(const std::string &data_file_path, const std::string &key_file_path, bool log) {
+    
+    Trainer trainer;
+    
+    trainer.Train(100, data_file_path, key_file_path, [&](const Data& data, size_t key) {
+        
+        for (size_t network_index = 0 ; network_index < 10 ; network_index++) {
+            
+            //Get the network to identify the number based on it's index
+            Data modified_result;
+            modified_result.content = std::vector<double>(1, (key == network_index) ? 1.0 : 0.0);
+            
+            m_networks[network_index]->Train(data, modified_result);
+        }
+        
+    }, [&](const Data& data) -> double {
+        
+        size_t max_pos = 0;
+        double max_value = 0.0;
+        
+        //Find maximal value by network index
+        for (size_t network_index = 0 ; network_index < 10 ; network_index++) {
+            
+            double result = m_networks[network_index]->Feed(data).front();
+            if (result > max_value) {
+                max_value = result;
+                max_pos = network_index;
+            }
+        }
+        
+        //The winning network index is the number
+        return max_pos;
+        
+    }, log);
+}
+
+Data SeperatedNetwork::Impl::ConformData(const neural::Data &data) const {
+    
+    Data modified_data;
+    modified_data.content.reserve(784);
+    for (size_t i = 0 ; i < 784 ; i++)
+        modified_data.content.push_back(data.content.at(i) > 50 ? 1.0 : 0.0);
+    
+    return modified_data;
 }
 
 #pragma mark - Combined Network functions
@@ -100,6 +211,8 @@ m_pimpl(new Impl())
 SeperatedNetwork::SeperatedNetwork(const std::string& serialized) :
 m_pimpl(new Impl(serialized))
 { }
+
+SeperatedNetwork::~SeperatedNetwork() = default;
 
 std::string SeperatedNetwork::Serialize() const {
     return m_pimpl->Serialize();

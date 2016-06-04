@@ -20,11 +20,6 @@ class Trainer {
 public:
     
     /**
-     * Constructor.
-     */
-    Trainer();
-    
-    /**
      * Trains the network at a percentage of the input data, and then returns
      * the correctness of the remaining input as a percentage.
      *

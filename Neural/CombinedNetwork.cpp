@@ -187,6 +187,8 @@ CombinedNetwork::CombinedNetwork(const std::string& serialized) :
 m_pimpl(new Impl(serialized))
 { }
 
+CombinedNetwork::~CombinedNetwork() = default;
+
 std::string CombinedNetwork::Serialize() const {
     return m_pimpl->Serialize();
 }
