@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		9458D0111D01B01D00F26864 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D0101D01B01D00F26864 /* main.cpp */; };
+		9458D01A1D01B06400F26864 /* Perceptron.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D0181D01B06400F26864 /* Perceptron.cpp */; };
+		9458D01E1D01CBED00F26864 /* Network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D01C1D01CBED00F26864 /* Network.cpp */; };
+		9458D0211D01CC0B00F26864 /* DataIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D01F1D01CC0B00F26864 /* DataIterator.cpp */; };
+		9458D0251D01CC4C00F26864 /* Data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D0231D01CC4C00F26864 /* Data.cpp */; };
+		9458D0291D01CD2700F26864 /* RandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D0271D01CD2700F26864 /* RandomGenerator.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +30,17 @@
 /* Begin PBXFileReference section */
 		9458D00D1D01B01D00F26864 /* Neural */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Neural; sourceTree = BUILT_PRODUCTS_DIR; };
 		9458D0101D01B01D00F26864 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		9458D0181D01B06400F26864 /* Perceptron.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Perceptron.cpp; sourceTree = "<group>"; };
+		9458D0191D01B06400F26864 /* Perceptron.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Perceptron.hpp; sourceTree = "<group>"; };
+		9458D01B1D01B06F00F26864 /* Definitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Definitions.h; sourceTree = "<group>"; };
+		9458D01C1D01CBED00F26864 /* Network.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Network.cpp; sourceTree = "<group>"; };
+		9458D01D1D01CBED00F26864 /* Network.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Network.hpp; sourceTree = "<group>"; };
+		9458D01F1D01CC0B00F26864 /* DataIterator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataIterator.cpp; sourceTree = "<group>"; };
+		9458D0201D01CC0B00F26864 /* DataIterator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DataIterator.hpp; sourceTree = "<group>"; };
+		9458D0231D01CC4C00F26864 /* Data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Data.cpp; sourceTree = "<group>"; };
+		9458D0241D01CC4C00F26864 /* Data.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Data.hpp; sourceTree = "<group>"; };
+		9458D0271D01CD2700F26864 /* RandomGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RandomGenerator.cpp; sourceTree = "<group>"; };
+		9458D0281D01CD2700F26864 /* RandomGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RandomGenerator.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,9 +73,44 @@
 		9458D00F1D01B01D00F26864 /* Neural */ = {
 			isa = PBXGroup;
 			children = (
+				9458D01B1D01B06F00F26864 /* Definitions.h */,
+				9458D0261D01CD2000F26864 /* Random */,
+				9458D0221D01CC1100F26864 /* Data */,
+				9458D0171D01B02A00F26864 /* Perceptron */,
 				9458D0101D01B01D00F26864 /* main.cpp */,
 			);
 			path = Neural;
+			sourceTree = "<group>";
+		};
+		9458D0171D01B02A00F26864 /* Perceptron */ = {
+			isa = PBXGroup;
+			children = (
+				9458D0191D01B06400F26864 /* Perceptron.hpp */,
+				9458D0181D01B06400F26864 /* Perceptron.cpp */,
+				9458D01D1D01CBED00F26864 /* Network.hpp */,
+				9458D01C1D01CBED00F26864 /* Network.cpp */,
+			);
+			name = Perceptron;
+			sourceTree = "<group>";
+		};
+		9458D0221D01CC1100F26864 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				9458D0201D01CC0B00F26864 /* DataIterator.hpp */,
+				9458D01F1D01CC0B00F26864 /* DataIterator.cpp */,
+				9458D0241D01CC4C00F26864 /* Data.hpp */,
+				9458D0231D01CC4C00F26864 /* Data.cpp */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		9458D0261D01CD2000F26864 /* Random */ = {
+			isa = PBXGroup;
+			children = (
+				9458D0281D01CD2700F26864 /* RandomGenerator.hpp */,
+				9458D0271D01CD2700F26864 /* RandomGenerator.cpp */,
+			);
+			name = Random;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,7 +169,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9458D0291D01CD2700F26864 /* RandomGenerator.cpp in Sources */,
 				9458D0111D01B01D00F26864 /* main.cpp in Sources */,
+				9458D0211D01CC0B00F26864 /* DataIterator.cpp in Sources */,
+				9458D01E1D01CBED00F26864 /* Network.cpp in Sources */,
+				9458D01A1D01B06400F26864 /* Perceptron.cpp in Sources */,
+				9458D0251D01CC4C00F26864 /* Data.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +265,7 @@
 		9458D0151D01B01D00F26864 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_OPTIMIZATION_LEVEL = fast;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -239,6 +296,7 @@
 				9458D0161D01B01D00F26864 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
