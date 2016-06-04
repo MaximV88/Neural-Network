@@ -9,8 +9,20 @@
 #include "DataIterator.hpp"
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 using namespace neural;
+
+size_t neural::RecordsInFile(const std::string &file_path) {
+    
+    std::ifstream myfile(file_path);
+    
+    // new lines will be skipped unless we stop it from happening:
+    myfile.unsetf(std::ios_base::skipws);
+    
+    // count the newlines with an algorithm specialized for counting:
+    return std::count(std::istream_iterator<char>(myfile), std::istream_iterator<char>(), '\n');
+}
 
 /**
  * Implementation.

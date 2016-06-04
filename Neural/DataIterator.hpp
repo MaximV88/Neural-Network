@@ -14,6 +14,14 @@
 #include <string>
 NAMESPACE_NEURAL_BEGIN
 
+/**
+ * Returns the number of values in the given input file.
+ *
+ * @param file_path     The file path to count the number of records of.
+ * @return Number of records in the input file.
+ */
+size_t RecordsInFile(const std::string& file_path);
+
 class DataIterator {
 public:
     

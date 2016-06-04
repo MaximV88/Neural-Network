@@ -13,6 +13,7 @@
 		9458D0211D01CC0B00F26864 /* DataIterator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D01F1D01CC0B00F26864 /* DataIterator.cpp */; };
 		9458D0251D01CC4C00F26864 /* Data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D0231D01CC4C00F26864 /* Data.cpp */; };
 		9458D0291D01CD2700F26864 /* RandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D0271D01CD2700F26864 /* RandomGenerator.cpp */; };
+		9458D02E1D02D49E00F26864 /* Trainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D02C1D02D49E00F26864 /* Trainer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,6 +42,8 @@
 		9458D0241D01CC4C00F26864 /* Data.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Data.hpp; sourceTree = "<group>"; };
 		9458D0271D01CD2700F26864 /* RandomGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RandomGenerator.cpp; sourceTree = "<group>"; };
 		9458D0281D01CD2700F26864 /* RandomGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RandomGenerator.hpp; sourceTree = "<group>"; };
+		9458D02C1D02D49E00F26864 /* Trainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Trainer.cpp; sourceTree = "<group>"; };
+		9458D02D1D02D49E00F26864 /* Trainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Trainer.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				9458D01B1D01B06F00F26864 /* Definitions.h */,
+				9458D02B1D02D48D00F26864 /* Trainer */,
 				9458D0261D01CD2000F26864 /* Random */,
 				9458D0221D01CC1100F26864 /* Data */,
 				9458D0171D01B02A00F26864 /* Perceptron */,
@@ -111,6 +115,15 @@
 				9458D0271D01CD2700F26864 /* RandomGenerator.cpp */,
 			);
 			name = Random;
+			sourceTree = "<group>";
+		};
+		9458D02B1D02D48D00F26864 /* Trainer */ = {
+			isa = PBXGroup;
+			children = (
+				9458D02D1D02D49E00F26864 /* Trainer.hpp */,
+				9458D02C1D02D49E00F26864 /* Trainer.cpp */,
+			);
+			name = Trainer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -173,6 +186,7 @@
 				9458D0111D01B01D00F26864 /* main.cpp in Sources */,
 				9458D0211D01CC0B00F26864 /* DataIterator.cpp in Sources */,
 				9458D01E1D01CBED00F26864 /* Network.cpp in Sources */,
+				9458D02E1D02D49E00F26864 /* Trainer.cpp in Sources */,
 				9458D01A1D01B06400F26864 /* Perceptron.cpp in Sources */,
 				9458D0251D01CC4C00F26864 /* Data.cpp in Sources */,
 			);
@@ -265,7 +279,7 @@
 		9458D0151D01B01D00F26864 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_OPTIMIZATION_LEVEL = fast;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -273,6 +287,7 @@
 		9458D0161D01B01D00F26864 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_OPTIMIZATION_LEVEL = fast;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

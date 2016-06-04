@@ -108,7 +108,7 @@ m_previous(previous) {
         //Have weight for every 'pixel' in the data or be able to process all the output from previous layer
         size_t number_of_connections = (m_previous) ? m_previous->m_perceptrons.size() : 784;
         
-        m_perceptrons.push_back(std::unique_ptr<Perceptron>(new Perceptron(number_of_connections, 0.02)));
+        m_perceptrons.push_back(std::unique_ptr<Perceptron>(new Perceptron(number_of_connections, 0.25)));
     }
 }
 
@@ -142,6 +142,7 @@ std::vector<double> Network::Impl::Train(const std::vector<double>& data, const 
     
     if (m_next) {
         
+        //Hidden layer
         std::vector<double> deltas = m_next->Train(Sum(data), target);
         std::vector<double> current_deltas;
         current_deltas.reserve(m_perceptrons.size());
