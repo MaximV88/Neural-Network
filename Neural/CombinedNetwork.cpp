@@ -7,7 +7,11 @@
 //
 
 #include "CombinedNetwork.hpp"
+#include "Trainer.hpp"
 #include "Network.hpp"
+#include "DataIterator.hpp"
+#include <iostream>
+#include <iomanip>
 
 using namespace neural;
 
@@ -47,7 +51,7 @@ public:
      * @param data_file_path    The path to the data file.
      * @return A string that contains the estimated results.
      */
-    std::string Estimate(const std::string& data_file_path) const;
+    std::string Estimate(const std::string& data_file_path, bool log) const;
     
     /**
      * Trains the network against known data.
@@ -61,6 +65,8 @@ public:
                bool log);
     
 private:
+    
+    Data ConformData(const neural::Data &data) const;
     
     std::unique_ptr<Network> m_network;
     
@@ -83,6 +89,94 @@ CombinedNetwork::Impl::Impl(const std::string& serialized) :
 m_network(new Network(serialized))
 { }
 
+std::string CombinedNetwork::Impl::Serialize() const {
+    return m_network->Serialize();
+}
+
+std::string CombinedNetwork::Impl::Estimate(const std::string &data_file_path, bool log) const {
+    
+    size_t index = 0;
+    size_t all_values = RecordsInFile(data_file_path);
+    
+    std::string output;
+    
+    //Reserve the values themselfs and another '\n' character
+    output.reserve(all_values * 2);
+    
+    //Set attribute for logging
+    if (log) { std::cout << std::fixed; }
+    
+    for (DataIterator test_iterator(data_file_path) ;
+         test_iterator.Valid() ;
+         test_iterator.Next(), ++index) {
+        
+        std::vector<double> results = m_network->Feed(ConformData(test_iterator.Value()));
+        
+        size_t max_pos = 0;
+        double max = 0.0;
+        for (size_t results_index = 0 ; results_index < results.size() ; results_index++)
+            if (results.at(results_index) > max) {
+                max_pos = results_index;
+                max = results.at(results_index);
+            }
+        
+        output += std::to_string(max_pos) + '\n';
+        
+        //Logging
+        if (log && index % (all_values / 100) == 0)
+            std::cout
+            << std::setprecision(3)
+            << "overall progress: "
+            << index / static_cast<double>(all_values) * 100
+            << "%\n";
+    }
+    
+    return output;
+}
+
+void CombinedNetwork::Impl::Train(const std::string &data_file_path, const std::string &key_file_path, bool log) {
+    
+    Trainer trainer;
+    
+    //Train for all given values
+    trainer.Train(100,
+                  data_file_path,
+                  key_file_path,
+                  [&](const Data& data, size_t key) {
+                      
+                      Data modified_result;
+                      modified_result.content = std::vector<double>(10, 0.0);
+                      modified_result.content[key] = 1.0;
+                      
+                      m_network->Train(data, modified_result);
+                      
+                  }, [&](const Data& data) -> double {
+                      
+                      std::vector<double> results = m_network->Feed(data);
+                      
+                      size_t max_pos = 0;
+                      double max = 0.0;
+                      for (size_t results_index = 0 ; results_index < results.size() ; results_index++)
+                          if (results.at(results_index) > max) {
+                              max_pos = results_index;
+                              max = results.at(results_index);
+                          }
+                      
+                      return max_pos;
+                      
+                  }, log);
+}
+
+Data CombinedNetwork::Impl::ConformData(const neural::Data &data) const {
+    
+    Data modified_data;
+    modified_data.content.reserve(784);
+    for (size_t i = 0 ; i < 784 ; i++)
+        modified_data.content.push_back(data.content.at(i) > 50 ? 1.0 : 0.0);
+    
+    return modified_data;
+}
+
 #pragma mark - Combined Network functions
 
 CombinedNetwork::CombinedNetwork() :
@@ -97,8 +191,8 @@ std::string CombinedNetwork::Serialize() const {
     return m_pimpl->Serialize();
 }
 
-std::string CombinedNetwork::Estimate(const std::string &data_file_path) const {
-    return m_pimpl->Estimate(data_file_path);
+std::string CombinedNetwork::Estimate(const std::string &data_file_path, bool log) const {
+    return m_pimpl->Estimate(data_file_path, log);
 }
 
 void CombinedNetwork::Train(const std::string &data_file_path, const std::string &key_file_path, bool log) {

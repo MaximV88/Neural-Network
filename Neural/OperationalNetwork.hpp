@@ -48,9 +48,10 @@ public:
      * result of the corresponding data in the file.
      *
      * @param data_file_path    The path to the data file.
+     * @param log               Flag that indicates to print progress to consule.
      * @return A string that contains the estimated results.
      */
-    virtual std::string Estimate(const std::string& data_file_path) const = 0;
+    std::string Estimate(const std::string& data_file_path, bool log = true) const;
     
     /**
      * Trains the network against known data.

@@ -47,7 +47,7 @@ public:
      * @param data_file_path    The path to the data file.
      * @return A string that contains the estimated results.
      */
-    std::string Estimate(const std::string& data_file_path) const;
+    std::string Estimate(const std::string& data_file_path, bool log) const;
     
     /**
      * Trains the network against known data.
@@ -62,6 +62,8 @@ public:
     
 private:
     
+    Data ConformData(const neural::Data &data) const;
+
     std::vector<std::unique_ptr<Network>> m_networks;
     
 };
@@ -85,6 +87,10 @@ SeperatedNetwork::Impl::Impl(const std::string& serialized) {
     
 }
 
+std::string SeperatedNetwork::Impl::Serialize() const {
+    return std::string();
+}
+
 #pragma mark - Combined Network functions
 
 SeperatedNetwork::SeperatedNetwork() :
@@ -99,8 +105,8 @@ std::string SeperatedNetwork::Serialize() const {
     return m_pimpl->Serialize();
 }
 
-std::string SeperatedNetwork::Estimate(const std::string &data_file_path) const {
-    return m_pimpl->Estimate(data_file_path);
+std::string SeperatedNetwork::Estimate(const std::string &data_file_path, bool log) const {
+    return m_pimpl->Estimate(data_file_path, log);
 }
 
 void SeperatedNetwork::Train(const std::string &data_file_path, const std::string &key_file_path, bool log) {

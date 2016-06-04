@@ -14,57 +14,7 @@
 
 using namespace neural;
 
-/**
- * Implementation.
- */
-class Trainer::Impl {
-public:
-    
-    /**
-     * Constructor.
-     */
-    Impl();
-    
-    /**
-     * Trains the network at a percentage of the input data, and then returns
-     * the correctness of the remaining input as a percentage.
-     *
-     * @param percentage    The percentage of the data to train.
-     * @param log           Prints to the consule the progress.
-     * @return Correctness of remaining records.
-     */
-    double Train(double percentage,
-                 const std::string& data_file_path,
-                 const std::string& key_file_path,
-                 std::function<void(const Data&, size_t)> train_handler,
-                 std::function<double(const Data&)> answer_handler,
-                 bool log);
-    
-    /**
-     * Trains the network on all of the values that were specified
-     * in the files that were given in the constructor, and then
-     * returns the correctness on the test file as a percentage.
-     *
-     * @param test_file_path    The file path to the file that the network will be tested against.
-     * @param log               Flag that indicates if to print to the consule the progress.
-     * @return The percentage of correct calculations from all records in the test file.
-     */
-    double Test(const std::string& test_file_path,
-                const std::string& key_file_path,
-                std::function<double(const Data&)> answer_handler,
-                bool log);
-    
-private:
-    
-    Data ConformData(const Data& data) const;
-    
-};
-
-#pragma mark - Implementation
-
-Trainer::Impl::Impl() { }
-
-double Trainer::Impl::Train(double percentage,
+double Trainer::Train(double percentage,
                             const std::string& data_file_path,
                             const std::string& key_file_path,
                             std::function<void (const Data &, size_t)> train_handler,
@@ -124,17 +74,7 @@ double Trainer::Impl::Train(double percentage,
     return correct / static_cast<double>(validate_limit);
 }
 
-Data Trainer::Impl::ConformData(const neural::Data &data) const {
-    
-    Data modified_data;
-    modified_data.content.reserve(784);
-    for (size_t i = 0 ; i < 784 ; i++)
-        modified_data.content.push_back(data.content.at(i) > 50 ? 1.0 : 0.0);
-    
-    return modified_data;
-}
-
-double Trainer::Impl::Test(const std::string &test_file_path,
+double Trainer::Test(const std::string &test_file_path,
                            const std::string& key_file_path,
                            std::function<double(const Data&)> answer_handler,
                            bool log) {
@@ -167,28 +107,4 @@ double Trainer::Impl::Test(const std::string &test_file_path,
     }
 
     return correct / static_cast<double>(all_values) * 100.0;
-}
-
-#pragma mark - Trainer functions
-
-Trainer::Trainer() :
-m_pimpl(new Impl())
-{ }
-
-Trainer::~Trainer() = default;
-
-double Trainer::Train(double percentage,
-                      const std::string& data_file_path,
-                      const std::string& key_file_path,
-                      std::function<void(const Data&, size_t)> train_handler,
-                      std::function<double(const Data&)> answer_handler,
-                      bool log) {
-    return m_pimpl->Train(percentage, data_file_path, key_file_path, train_handler, answer_handler, log);
-}
-
-double Trainer::Test(const std::string &test_file_path,
-                     const std::string& key_file_path,
-                     std::function<double(const Data&)> answer_handler,
-                     bool log) {
-    return m_pimpl->Test(test_file_path, key_file_path, answer_handler, log);
 }

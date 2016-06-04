@@ -53,16 +53,6 @@ public:
                 std::function<double(const Data&)> answer_handler,
                 bool log = true);
     
-    /**
-     * Destructor.
-     */
-    ~Trainer();
-    
-private:
-    
-    class Impl;
-    std::unique_ptr<Impl> m_pimpl;
-    
 };
 
 NAMESPACE_NEURAL_END
