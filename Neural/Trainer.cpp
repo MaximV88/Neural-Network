@@ -22,12 +22,8 @@ public:
     
     /**
      * Constructor.
-     *
-     * @param data_file_path    The file path to the data that represents the numbers.
-     * @param key_file_path     The file path to the representations that the data file has.
      */
-    Impl(const std::string& data_file_path,
-         const std::string& key_file_path);
+    Impl();
     
     /**
      * Trains the network at a percentage of the input data, and then returns
@@ -38,6 +34,8 @@ public:
      * @return Correctness of remaining records.
      */
     double Train(double percentage,
+                 const std::string& data_file_path,
+                 const std::string& key_file_path,
                  std::function<void(const Data&, size_t)> train_handler,
                  std::function<double(const Data&)> answer_handler,
                  bool log);
@@ -60,21 +58,15 @@ private:
     
     Data ConformData(const Data& data) const;
     
-    std::string m_data_file_path;
-    
-    std::string m_key_file_path;
-    
 };
 
 #pragma mark - Implementation
 
-Trainer::Impl::Impl(const std::string& data_file_path,
-                    const std::string& key_file_path) :
-m_data_file_path(data_file_path),
-m_key_file_path(key_file_path)
-{ }
+Trainer::Impl::Impl() { }
 
 double Trainer::Impl::Train(double percentage,
+                            const std::string& data_file_path,
+                            const std::string& key_file_path,
                             std::function<void (const Data &, size_t)> train_handler,
                             std::function<double (const Data &)> answer_handler,
                             bool log) {
@@ -83,14 +75,14 @@ double Trainer::Impl::Train(double percentage,
     size_t index = 0;
     size_t correct = 0;
     
-    size_t all_records = RecordsInFile(m_key_file_path);
+    size_t all_records = RecordsInFile(key_file_path);
     size_t train_limit = all_records * (percentage / 100.0);
     size_t validate_limit = all_records - train_limit;
     
     //Set attribute for logging
     if (log) { std::cout << std::fixed; }
     
-    for (DataIterator data(m_data_file_path), results(m_key_file_path) ;
+    for (DataIterator data(data_file_path), results(key_file_path) ;
          data.Valid() && results.Valid() ;
          data.Next(), results.Next(), index++) {
         
@@ -121,7 +113,7 @@ double Trainer::Impl::Train(double percentage,
             if (log && (index - train_limit) % (validate_limit / 100) == 0)
                 std::cout
                 << std::setprecision(3)
-                << "correct:"
+                << "correct: "
                 << correct / static_cast<double>(index - train_limit) * 100
                 << "%\t\t\toverall progress: " << (index - train_limit) / static_cast<double>(validate_limit) * 100.0
                 << "%\n";
@@ -165,32 +157,33 @@ double Trainer::Impl::Test(const std::string &test_file_path,
         if (real_value == result)
             ++correct;
 
-        if (log && index % all_values / 100 == 0)
+        if (log && index % (all_values / 100) == 0)
             std::cout
             << std::setprecision(3)
-            << "correct:"
-            << correct / static_cast<double>(all_values) * 100
+            << "correct: "
+            << correct / static_cast<double>(index) * 100
             << "%\t\t\toverall progress: " << index / static_cast<double>(all_values) * 100.0
             << "%\n";
     }
 
-    return correct / static_cast<double>(RecordsInFile(test_file_path));
+    return correct / static_cast<double>(all_values) * 100.0;
 }
 
 #pragma mark - Trainer functions
 
-Trainer::Trainer(const std::string& data_file_path,
-                 const std::string& key_file_path) :
-m_pimpl(new Impl(data_file_path, key_file_path))
+Trainer::Trainer() :
+m_pimpl(new Impl())
 { }
 
 Trainer::~Trainer() = default;
 
 double Trainer::Train(double percentage,
+                      const std::string& data_file_path,
+                      const std::string& key_file_path,
                       std::function<void(const Data&, size_t)> train_handler,
                       std::function<double(const Data&)> answer_handler,
                       bool log) {
-    return m_pimpl->Train(percentage, train_handler, answer_handler, log);
+    return m_pimpl->Train(percentage, data_file_path, key_file_path, train_handler, answer_handler, log);
 }
 
 double Trainer::Test(const std::string &test_file_path,

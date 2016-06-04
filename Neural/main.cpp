@@ -14,7 +14,8 @@
 
 using namespace neural;
 
-std::string SeperatedNetworks() {
+std::string SeperatedNetworks(const std::string& train_file_path,
+                              const std::string& key_file_path) {
     
     std::vector<Network*> networks;
     
@@ -28,10 +29,9 @@ std::string SeperatedNetworks() {
         networks.push_back(new_network);
     }
 
-    Trainer trainer("digits_train.csv", "digits_train_key.csv");
+    Trainer trainer;
     
-    //Train against 90% of data and compare the remaining 10%
-    trainer.Train(90, [&](const Data& data, size_t key) {
+    trainer.Train(100, train_file_path, key_file_path, [&](const Data& data, size_t key) {
         
         for (size_t network_index = 0 ; network_index < 10 ; network_index++) {
             
@@ -71,19 +71,15 @@ std::string SeperatedNetworks() {
     return serialized;
 }
 
-std::string CombinedNetworks() {
+std::string CombinedNetworks(const std::string& train_file_path,
+                             const std::string& key_file_path) {
     
-    Network neural_network(310);
-    neural_network.AddNetwork(200);
-    neural_network.AddNetwork(200);
-    neural_network.AddNetwork(180);
-    neural_network.AddNetwork(80);
-    neural_network.AddNetwork(10);
+    Trainer trainer;
     
-    Trainer trainer("digits_train.csv", "digits_train_key.csv");
-    
-    //Train against 90% of data and compare the remaining 10%
-    trainer.Train(5, [&](const Data& data, size_t key) {
+    trainer.Train(100,
+                  train_file_path,
+                  key_file_path,
+                  [&](const Data& data, size_t key) {
         
         Data modified_result;
         modified_result.content = std::vector<double>(10, 0.0);
@@ -109,13 +105,15 @@ std::string CombinedNetworks() {
     return neural_network.Serialize();
 }
 
+std::string DeserializeAndExecuteSeperated(const std::string& serialized_network
+
 void LoadAndRun(const std::string& serialized_file_path, const std::string& test_file_path) {
     
     //Get the number of networks that compose the solution
     
     std::unique_ptr<Network> network(new Network(serialized_file_path));
     
-    Trainer trainer("digits_train.csv", "digits_train_key.csv");
+    Trainer trainer;
     trainer.Test("digits_train.csv", "digits_train_key.csv", [&](const Data& data) -> double {
         
         std::vector<double> results = network->Feed(data);
@@ -133,21 +131,79 @@ void LoadAndRun(const std::string& serialized_file_path, const std::string& test
     
 }
 
-int main(int argc, const char * argv[]) {
+char* GetOption(char ** begin, char ** end, const std::string& option) {
     
-    //Print the clusters to a file
-//    std::ofstream output("output.txt");
-//    output << CombinedNetworks();
-//    output.close();
+    char ** itr = std::find(begin, end, option);
+    if (itr != end && ++itr != end)
+        return *itr;
     
-    Network neural_network(310);
-    neural_network.AddNetwork(200);
-    neural_network.AddNetwork(200);
-    neural_network.AddNetwork(180);
-    neural_network.AddNetwork(80);
-    neural_network.AddNetwork(10);
+    return 0;
+}
 
-    LoadAndRun(neural_network.Serialize(), "test.txt");
+int main(int argc, char * argv[]) {
+    
+    //Show instructions
+    if (argc == 1) {
+        
+        std::cerr << "Welcome to the NeuralNetworker(TM), probably the only C++ implementation around.\n\n"
+        << "Usage:\n"
+        << "-i\tSpecifies the input data file that has the raw data as 784 pixels per each read\n"
+        << "-k\tSpecifies the key file that holds the answers for the given data file\n"
+        << "-o\tSpecifies the name of the output file\n"
+        << "-n\tSpecifies the type of network to use: 1 stands for 10 different networks, 2 will run with a single network\n"
+        << "-t\tActivates the test mode. The flag specifies name of the  output file from a previous run. The -i file will be used as the test file and will output the results to the -o file\n\n\n";
+    }
+    else {
+        
+        //Handle program lifecycle with C
+        char* data_file         = GetOption(argv, argv + argc, "-i");
+        char* key_file          = GetOption(argv, argv + argc, "-k");
+        char* output_file       = GetOption(argv, argv + argc, "-o");
+        char* serialized_file   = GetOption(argv, argv + argc, "-t");
+        char* type              = GetOption(argv, argv + argc, "-u");
+        
+        //Check that the data is valid
+        if (!type) {
+            std::cerr << "Network type must be specified via -u";
+            return 0;
+        }
+        
+        if (serialized_file) {
+            
+            if (!data_file || !output_file) {
+                std::cerr << "In order to create an output file that contains the results, -i and -o must be specified.";
+                return 0;
+            }
+        }
+        else {
+            
+            if (!data_file || !output_file || !key_file) {
+                std::cerr << "In order to create a network file that contains the trained network, -i, -o and -k must be specified.";
+                return 0;
+            }
+            
+        }
+    
+        if (!serialized_file) {
+            
+            //Output a serialized network into a file according to type
+            std::ofstream output(output_file);
+            
+            if (*type == '1')       output << SeperatedNetworks(data_file, key_file);
+            else if (*type == '2')  output << CombinedNetworks(data_file, key_file);
+            
+             output.close();
+            std::cout << "The network was successfully serialized and saved to " << output_file << "\n";
+            return 0;
+        }
+        else {
+            
+            //Convert the serialized file by type, and run the test file
+            
+        }
+        
+        
+    }
     
     return 0;
 }

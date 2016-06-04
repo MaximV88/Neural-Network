@@ -21,13 +21,8 @@ public:
     
     /**
      * Constructor.
-     *
-     * @param data_file_path    The file path to the data that represents the numbers.
-     * @param key_file_path     The file path to the representations that the data file has.
-     * @param neural_network    The network that needs to be trained.
      */
-    Trainer(const std::string& data_file_path,
-            const std::string& key_file_path);
+    Trainer();
     
     /**
      * Trains the network at a percentage of the input data, and then returns
@@ -38,6 +33,8 @@ public:
      * @return Correctness of remaining records.
      */
     double Train(double percentage,
+                 const std::string& data_file_path,
+                 const std::string& key_file_path,
                  std::function<void(const Data& data, size_t key)> train_handler,
                  std::function<double(const Data&)> answer_handler,
                  bool log = true);

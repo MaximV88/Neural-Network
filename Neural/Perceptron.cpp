@@ -38,16 +38,24 @@ Perceptron::Perceptron(const std::string& serialized) {
     
     //Deserialize manually
     size_t delimiter_index = serialized.find_first_of(':');
-    size_t weights_count = std::stoul(std::string(serialized.begin(), serialized.begin() + delimiter_index));
+    m_bias = std::stod(std::string(serialized.begin(), serialized.begin() + delimiter_index));
+    
+    size_t last_delimiter_index = delimiter_index + 1;
+    delimiter_index = serialized.find_first_of(':', delimiter_index + 1);
+    m_learning_constant = std::stod(std::string(serialized.begin() + last_delimiter_index, serialized.begin() + delimiter_index));
+    
+    last_delimiter_index = delimiter_index + 1;
+    delimiter_index = serialized.find_first_of(':', delimiter_index + 1);
+    size_t weights_count = std::stoul(std::string(serialized.begin() + last_delimiter_index, serialized.begin() + delimiter_index));
     m_weights.reserve(weights_count);
     
     for (size_t index = 0 ; index < weights_count ; index++) {
         
-        size_t new_delimiter_index = serialized.find_first_of(',', delimiter_index);
-        double weight_value = std::stod(std::string(serialized.begin() + delimiter_index + 1, serialized.begin() + new_delimiter_index));
+        last_delimiter_index = delimiter_index + 1;
+        delimiter_index = serialized.find_first_of(',', delimiter_index + 1);
+        double weight_value = std::stod(std::string(serialized.begin() + last_delimiter_index, serialized.begin() + delimiter_index));
         m_weights.push_back(weight_value);
         
-        delimiter_index = new_delimiter_index + 1;
     }
 }
 
@@ -75,13 +83,14 @@ void Perceptron::Train(double delta, const std::vector<double> &omicron) {
 
 std::string Perceptron::Serialize() const {
     
-    std::string serialized = std::to_string(m_weights.size()) + ':';
-    for (size_t index = 0, total = m_weights.size() ; index < total ; index++) {
-        serialized += std::to_string(m_weights[index]);
-        
-        //Add a delimiter for later deserialization
-        serialized += ',';
-    }
+    //Serialize by order of: bias - learning constant - weight count - weights
+    std::string serialized =  std::to_string(m_bias) +
+    ':' + std::to_string(m_learning_constant) +
+    ':' + std::to_string(m_weights.size()) +
+    ':';
+    
+    for (size_t index = 0, total = m_weights.size() ; index < total ; index++)
+        serialized += std::to_string(m_weights[index]) + ',';
     
     return serialized;
 }

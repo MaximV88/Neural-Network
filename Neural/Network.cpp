@@ -101,6 +101,11 @@ public:
      */
     std::string Serialize() const;
     
+    /**
+     * Destructor.
+     */
+    ~Impl();
+    
 private:
     
     ///Stores all the perceptrons in the network
@@ -158,6 +163,13 @@ Network::Impl::Impl(const std::string& serialized) {
         m_next = new Network::Impl(next_network);
         m_next->m_previous = this;
     }
+}
+
+Network::Impl::~Impl() {
+    
+    //Propogate deletion across the linked networks
+    if (m_next)
+        delete m_next;
 }
 
 void Network::Impl::AddNetwork(size_t perceptrons) {

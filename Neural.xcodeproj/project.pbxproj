@@ -14,6 +14,9 @@
 		9458D0251D01CC4C00F26864 /* Data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D0231D01CC4C00F26864 /* Data.cpp */; };
 		9458D0291D01CD2700F26864 /* RandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D0271D01CD2700F26864 /* RandomGenerator.cpp */; };
 		9458D02E1D02D49E00F26864 /* Trainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D02C1D02D49E00F26864 /* Trainer.cpp */; };
+		9458D0321D035C1400F26864 /* CombinedNetwork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D0301D035C1400F26864 /* CombinedNetwork.cpp */; };
+		9458D0351D035C1C00F26864 /* SeperatedNetwork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D0331D035C1C00F26864 /* SeperatedNetwork.cpp */; };
+		9458D0381D035ECF00F26864 /* OperationalNetwork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D0361D035ECF00F26864 /* OperationalNetwork.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -44,6 +47,12 @@
 		9458D0281D01CD2700F26864 /* RandomGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RandomGenerator.hpp; sourceTree = "<group>"; };
 		9458D02C1D02D49E00F26864 /* Trainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Trainer.cpp; sourceTree = "<group>"; };
 		9458D02D1D02D49E00F26864 /* Trainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Trainer.hpp; sourceTree = "<group>"; };
+		9458D0301D035C1400F26864 /* CombinedNetwork.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CombinedNetwork.cpp; sourceTree = "<group>"; };
+		9458D0311D035C1400F26864 /* CombinedNetwork.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CombinedNetwork.hpp; sourceTree = "<group>"; };
+		9458D0331D035C1C00F26864 /* SeperatedNetwork.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SeperatedNetwork.cpp; sourceTree = "<group>"; };
+		9458D0341D035C1C00F26864 /* SeperatedNetwork.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SeperatedNetwork.hpp; sourceTree = "<group>"; };
+		9458D0361D035ECF00F26864 /* OperationalNetwork.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OperationalNetwork.cpp; sourceTree = "<group>"; };
+		9458D0371D035ECF00F26864 /* OperationalNetwork.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OperationalNetwork.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				9458D01B1D01B06F00F26864 /* Definitions.h */,
+				9458D02F1D035BEB00F26864 /* Types */,
 				9458D02B1D02D48D00F26864 /* Trainer */,
 				9458D0261D01CD2000F26864 /* Random */,
 				9458D0221D01CC1100F26864 /* Data */,
@@ -124,6 +134,19 @@
 				9458D02C1D02D49E00F26864 /* Trainer.cpp */,
 			);
 			name = Trainer;
+			sourceTree = "<group>";
+		};
+		9458D02F1D035BEB00F26864 /* Types */ = {
+			isa = PBXGroup;
+			children = (
+				9458D0371D035ECF00F26864 /* OperationalNetwork.hpp */,
+				9458D0361D035ECF00F26864 /* OperationalNetwork.cpp */,
+				9458D0311D035C1400F26864 /* CombinedNetwork.hpp */,
+				9458D0301D035C1400F26864 /* CombinedNetwork.cpp */,
+				9458D0341D035C1C00F26864 /* SeperatedNetwork.hpp */,
+				9458D0331D035C1C00F26864 /* SeperatedNetwork.cpp */,
+			);
+			name = Types;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -183,12 +206,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				9458D0291D01CD2700F26864 /* RandomGenerator.cpp in Sources */,
+				9458D0381D035ECF00F26864 /* OperationalNetwork.cpp in Sources */,
 				9458D0111D01B01D00F26864 /* main.cpp in Sources */,
 				9458D0211D01CC0B00F26864 /* DataIterator.cpp in Sources */,
+				9458D0351D035C1C00F26864 /* SeperatedNetwork.cpp in Sources */,
 				9458D01E1D01CBED00F26864 /* Network.cpp in Sources */,
 				9458D02E1D02D49E00F26864 /* Trainer.cpp in Sources */,
 				9458D01A1D01B06400F26864 /* Perceptron.cpp in Sources */,
 				9458D0251D01CC4C00F26864 /* Data.cpp in Sources */,
+				9458D0321D035C1400F26864 /* CombinedNetwork.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
