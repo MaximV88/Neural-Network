@@ -12,7 +12,6 @@
 
 using namespace neural;
 
-
 char* GetOption(char ** begin, char ** end, const std::string& option) {
     
     char ** itr = std::find(begin, end, option);
@@ -23,7 +22,7 @@ char* GetOption(char ** begin, char ** end, const std::string& option) {
 }
 
 int main(int argc, char * argv[]) {
-    
+
     //Show instructions
     if (argc == 1) {
         
@@ -33,7 +32,7 @@ int main(int argc, char * argv[]) {
         << "-k\tSpecifies the key file that holds the answers for the given data file\n"
         << "-o\tSpecifies the name of the output file\n"
         << "-n\tSpecifies the type of network to use: 1 stands for 10 different networks, 2 will run with a single network\n"
-        << "-t\tActivates the test mode. The flag specifies name of the  output file from a previous run. The -i file will be used as the test file and will output the results to the -o file\n\n\n";
+        << "-t\tActivates the test mode. The flag specifies name of the output file from a previous run. The -i file will be used as the test file and will output the results to the -o file\n\n\n";
     }
     else {
         
@@ -80,16 +79,20 @@ int main(int argc, char * argv[]) {
             output << network->Serialize();
             
             output.close();
-            std::cout << "The network was successfully serialized and saved to " << output_file << "\n";
+            std::cout << "The network was successfully serialized and saved to " << output_file << '\n';
             return 0;
         }
         else {
             
             //Convert the serialized file by type, and run the test file
+            std::ofstream output(output_file);
+            std::unique_ptr<OperationalNetwork> network(OperationalNetwork::Deserialize(serialized_file));
+            output << network->Estimate(data_file);
             
+            output.close();
+            std::cout << "The results have been saved to " << output_file << '\n';
+            return 0;
         }
-        
-        
     }
     
     return 0;

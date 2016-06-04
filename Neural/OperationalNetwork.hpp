@@ -30,9 +30,9 @@ public:
     /**
      * This will recreate the network given in the input.
      *
-     * @param serialized The serialized form of the network.
+     * @param serialized_file_path The serialized form of the network.
      */
-    static OperationalNetwork* Deserialize(const std::string& serialized);
+    static OperationalNetwork* Deserialize(const std::string& serialized_file_path);
 
     /**
      * This will serialize the network into a form that can be saved and
@@ -40,7 +40,7 @@ public:
      *
      * @return A string that contains the serialized form of the network.
      */
-    std::string Serialize() const;
+    virtual std::string Serialize() const;
     
     /**
      * Runs the network against the input data and outputs the
@@ -51,7 +51,7 @@ public:
      * @param log               Flag that indicates to print progress to consule.
      * @return A string that contains the estimated results.
      */
-    std::string Estimate(const std::string& data_file_path, bool log = true) const;
+    virtual std::string Estimate(const std::string& data_file_path, bool log = true) const = 0;
     
     /**
      * Trains the network against known data.

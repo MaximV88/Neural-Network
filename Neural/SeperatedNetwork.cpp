@@ -89,15 +89,15 @@ SeperatedNetwork::Impl::Impl() {
 
 SeperatedNetwork::Impl::Impl(const std::string& serialized) {
     
-    //The networks are seperated by the delimiter '!' - at least one is at the start with '\n'
-    size_t network_start = 2;
+    //The networks are seperated by the delimiter '!'
+    size_t network_start = 1;
     
     for (size_t index = 0 ; index < 10 ; index++) {
         
         size_t network_end = serialized.find_first_of('!', network_start);
         
         m_networks.push_back(std::unique_ptr<Network>(new Network(serialized.substr(network_start, network_end - network_start))));
-        network_start = network_end + 2;
+        network_start = network_end + 1;
     }
 }
 
@@ -168,7 +168,7 @@ void SeperatedNetwork::Impl::Train(const std::string &data_file_path, const std:
             Data modified_result;
             modified_result.content = std::vector<double>(1, (key == network_index) ? 1.0 : 0.0);
             
-            m_networks[network_index]->Train(data, modified_result);
+            m_networks[network_index]->Train(ConformData(data), modified_result);
         }
         
     }, [&](const Data& data) -> double {
@@ -179,7 +179,7 @@ void SeperatedNetwork::Impl::Train(const std::string &data_file_path, const std:
         //Find maximal value by network index
         for (size_t network_index = 0 ; network_index < 10 ; network_index++) {
             
-            double result = m_networks[network_index]->Feed(data).front();
+            double result = m_networks[network_index]->Feed(ConformData(data)).front();
             if (result > max_value) {
                 max_value = result;
                 max_pos = network_index;
@@ -215,7 +215,7 @@ m_pimpl(new Impl(serialized))
 SeperatedNetwork::~SeperatedNetwork() = default;
 
 std::string SeperatedNetwork::Serialize() const {
-    return m_pimpl->Serialize();
+    return OperationalNetwork::Serialize() + m_pimpl->Serialize();
 }
 
 std::string SeperatedNetwork::Estimate(const std::string &data_file_path, bool log) const {

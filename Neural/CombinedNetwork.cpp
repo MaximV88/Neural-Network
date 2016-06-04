@@ -148,11 +148,11 @@ void CombinedNetwork::Impl::Train(const std::string &data_file_path, const std::
                       modified_result.content = std::vector<double>(10, 0.0);
                       modified_result.content[key] = 1.0;
                       
-                      m_network->Train(data, modified_result);
+                      m_network->Train(ConformData(data), modified_result);
                       
                   }, [&](const Data& data) -> double {
                       
-                      std::vector<double> results = m_network->Feed(data);
+                      std::vector<double> results = m_network->Feed(ConformData(data));
                       
                       size_t max_pos = 0;
                       double max = 0.0;
@@ -190,7 +190,7 @@ m_pimpl(new Impl(serialized))
 CombinedNetwork::~CombinedNetwork() = default;
 
 std::string CombinedNetwork::Serialize() const {
-    return m_pimpl->Serialize();
+    return OperationalNetwork::Serialize() + m_pimpl->Serialize();
 }
 
 std::string CombinedNetwork::Estimate(const std::string &data_file_path, bool log) const {

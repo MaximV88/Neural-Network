@@ -10,6 +10,7 @@
 #include "CombinedNetwork.hpp"
 #include "SeperatedNetwork.hpp"
 #include <sstream>
+#include <fstream>
 
 using namespace neural;
 
@@ -21,14 +22,17 @@ OperationalNetwork* OperationalNetwork::CreateNetwork(enum OperationalNetwork::T
     }
 }
 
-OperationalNetwork* OperationalNetwork::Deserialize(const std::string &serialized) {
+OperationalNetwork* OperationalNetwork::Deserialize(const std::string &serialized_file_path) {
     
-    std::stringstream string_stream(serialized);
+    std::fstream file_stream(serialized_file_path);
     std::string type;
-    std::getline(string_stream, type);
+    std::getline(file_stream, type);
     
-    if (type == "Combined")         return new CombinedNetwork(serialized.substr(string_stream.tellg()));
-    else if (type == "Seperated")   return new SeperatedNetwork(serialized.substr(string_stream.tellg()));
+    std::string contents((std::istreambuf_iterator<char>(file_stream)),
+                         (std::istreambuf_iterator<char>()));
+    
+    if (type == "Combined")         return new CombinedNetwork(contents);
+    else if (type == "Seperated")   return new SeperatedNetwork(contents);
     
     return nullptr;
 }
@@ -44,9 +48,6 @@ std::string OperationalNetwork::Serialize() const {
         case Type::kCombined: serialized = "Combined\n";    break;
         case Type::kSeperated: serialized = "Seperated\n";  break;
     }
-    
-    //Add content of network
-    serialized += Serialize();
-    
+
     return serialized;
 }
