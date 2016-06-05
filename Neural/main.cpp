@@ -74,9 +74,9 @@ int main(int argc, char * argv[]) {
             if (*type == '1')       network_type = OperationalNetwork::Type::kSeperated;
             else if (*type == '2')  network_type = OperationalNetwork::Type::kCombined;
             
-            std::unique_ptr<OperationalNetwork> network(OperationalNetwork::CreateNetwork(network_type));
-            network->Train(data_file, key_file);
-            output << network->Serialize();
+            OperationalNetwork network(network_type);
+            network.Train(data_file, key_file);
+            output << network.Serialize();
             
             output.close();
             std::cout << "The network was successfully serialized and saved to " << output_file << '\n';
@@ -86,8 +86,8 @@ int main(int argc, char * argv[]) {
             
             //Convert the serialized file by type, and run the test file
             std::ofstream output(output_file);
-            std::unique_ptr<OperationalNetwork> network(OperationalNetwork::Deserialize(serialized_file));
-            output << network->Estimate(data_file);
+            OperationalNetwork network(serialized_file);
+            output << network.Estimate(data_file);
             
             output.close();
             std::cout << "The results have been saved to " << output_file << '\n';

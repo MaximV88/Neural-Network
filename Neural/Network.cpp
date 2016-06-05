@@ -289,7 +289,7 @@ Network::Network(const std::string& serialized) :
 m_pimpl(new Impl(serialized))
 { }
 
-Network::~Network() = default;
+Network::~Network() { };
 
 void Network::AddNetwork(size_t perceptrons) {
     m_pimpl->AddNetwork(perceptrons);

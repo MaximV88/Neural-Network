@@ -11,6 +11,7 @@
 #include "Definitions.h"
 #include <string>
 NAMESPACE_NEURAL_BEGIN
+class Data;
 
 class OperationalNetwork {
 public:
@@ -25,14 +26,14 @@ public:
      *
      * @param type The type of network to create.
      */
-    static OperationalNetwork* CreateNetwork(OperationalNetwork::Type type);
+    OperationalNetwork(OperationalNetwork::Type type);
     
     /**
      * This will recreate the network given in the input.
      *
      * @param serialized_file_path The serialized form of the network.
      */
-    static OperationalNetwork* Deserialize(const std::string& serialized_file_path);
+    OperationalNetwork(const std::string& serialized_file_path);
 
     /**
      * This will serialize the network into a form that can be saved and
@@ -40,7 +41,7 @@ public:
      *
      * @return A string that contains the serialized form of the network.
      */
-    virtual std::string Serialize() const;
+    std::string Serialize() const;
     
     /**
      * Runs the network against the input data and outputs the
@@ -51,7 +52,7 @@ public:
      * @param log               Flag that indicates to print progress to consule.
      * @return A string that contains the estimated results.
      */
-    virtual std::string Estimate(const std::string& data_file_path, bool log = true) const = 0;
+    std::string Estimate(const std::string& data_file_path, bool log = true) const;
     
     /**
      * Trains the network against known data.
@@ -60,21 +61,22 @@ public:
      * @param key_file_path     The path to the file containing the results of the data file.
      * @param log               Flag if to output progress to the consule.
      */
-    virtual void Train(const std::string& data_file_path,
+    void Train(const std::string& data_file_path,
                const std::string& key_file_path,
-               bool log = true) = 0;
-    
-    /**
-     * Returns the type of the network as an enum.
-     *
-     * @return An enum that represents the type of the network.
-     */
-    virtual OperationalNetwork::Type Type() const = 0;
+               bool log = true);
     
     /**
      * Destructor.
      */
-    virtual ~OperationalNetwork();
+    ~OperationalNetwork();
+
+    //Represents the implementation
+    class Impl;
+
+private:
+    
+    ///Stores the implementation
+    std::unique_ptr<Impl> m_pimpl;
     
 };
 

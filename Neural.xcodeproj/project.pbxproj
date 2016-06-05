@@ -14,9 +14,9 @@
 		9458D0251D01CC4C00F26864 /* Data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D0231D01CC4C00F26864 /* Data.cpp */; };
 		9458D0291D01CD2700F26864 /* RandomGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D0271D01CD2700F26864 /* RandomGenerator.cpp */; };
 		9458D02E1D02D49E00F26864 /* Trainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D02C1D02D49E00F26864 /* Trainer.cpp */; };
-		9458D0321D035C1400F26864 /* CombinedNetwork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D0301D035C1400F26864 /* CombinedNetwork.cpp */; };
-		9458D0351D035C1C00F26864 /* SeperatedNetwork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D0331D035C1C00F26864 /* SeperatedNetwork.cpp */; };
 		9458D0381D035ECF00F26864 /* OperationalNetwork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D0361D035ECF00F26864 /* OperationalNetwork.cpp */; };
+		9458D03C1D04A29400F26864 /* CombinedNetworkImplementation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D03A1D04A29400F26864 /* CombinedNetworkImplementation.cpp */; };
+		9458D03F1D04A29E00F26864 /* SeperatedNetworkImplementation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9458D03D1D04A29E00F26864 /* SeperatedNetworkImplementation.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -47,12 +47,13 @@
 		9458D0281D01CD2700F26864 /* RandomGenerator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RandomGenerator.hpp; sourceTree = "<group>"; };
 		9458D02C1D02D49E00F26864 /* Trainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Trainer.cpp; sourceTree = "<group>"; };
 		9458D02D1D02D49E00F26864 /* Trainer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Trainer.hpp; sourceTree = "<group>"; };
-		9458D0301D035C1400F26864 /* CombinedNetwork.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CombinedNetwork.cpp; sourceTree = "<group>"; };
-		9458D0311D035C1400F26864 /* CombinedNetwork.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CombinedNetwork.hpp; sourceTree = "<group>"; };
-		9458D0331D035C1C00F26864 /* SeperatedNetwork.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SeperatedNetwork.cpp; sourceTree = "<group>"; };
-		9458D0341D035C1C00F26864 /* SeperatedNetwork.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SeperatedNetwork.hpp; sourceTree = "<group>"; };
 		9458D0361D035ECF00F26864 /* OperationalNetwork.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OperationalNetwork.cpp; sourceTree = "<group>"; };
 		9458D0371D035ECF00F26864 /* OperationalNetwork.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OperationalNetwork.hpp; sourceTree = "<group>"; };
+		9458D03A1D04A29400F26864 /* CombinedNetworkImplementation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CombinedNetworkImplementation.cpp; sourceTree = "<group>"; };
+		9458D03B1D04A29400F26864 /* CombinedNetworkImplementation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CombinedNetworkImplementation.hpp; sourceTree = "<group>"; };
+		9458D03D1D04A29E00F26864 /* SeperatedNetworkImplementation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SeperatedNetworkImplementation.cpp; sourceTree = "<group>"; };
+		9458D03E1D04A29E00F26864 /* SeperatedNetworkImplementation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SeperatedNetworkImplementation.hpp; sourceTree = "<group>"; };
+		9458D0401D04A2AD00F26864 /* OperationalNetworkImplementation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OperationalNetworkImplementation.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,14 +140,23 @@
 		9458D02F1D035BEB00F26864 /* Types */ = {
 			isa = PBXGroup;
 			children = (
+				9458D0391D04A27A00F26864 /* Implementation */,
 				9458D0371D035ECF00F26864 /* OperationalNetwork.hpp */,
 				9458D0361D035ECF00F26864 /* OperationalNetwork.cpp */,
-				9458D0311D035C1400F26864 /* CombinedNetwork.hpp */,
-				9458D0301D035C1400F26864 /* CombinedNetwork.cpp */,
-				9458D0341D035C1C00F26864 /* SeperatedNetwork.hpp */,
-				9458D0331D035C1C00F26864 /* SeperatedNetwork.cpp */,
 			);
 			name = Types;
+			sourceTree = "<group>";
+		};
+		9458D0391D04A27A00F26864 /* Implementation */ = {
+			isa = PBXGroup;
+			children = (
+				9458D0401D04A2AD00F26864 /* OperationalNetworkImplementation.h */,
+				9458D03B1D04A29400F26864 /* CombinedNetworkImplementation.hpp */,
+				9458D03A1D04A29400F26864 /* CombinedNetworkImplementation.cpp */,
+				9458D03E1D04A29E00F26864 /* SeperatedNetworkImplementation.hpp */,
+				9458D03D1D04A29E00F26864 /* SeperatedNetworkImplementation.cpp */,
+			);
+			name = Implementation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,12 +219,12 @@
 				9458D0381D035ECF00F26864 /* OperationalNetwork.cpp in Sources */,
 				9458D0111D01B01D00F26864 /* main.cpp in Sources */,
 				9458D0211D01CC0B00F26864 /* DataIterator.cpp in Sources */,
-				9458D0351D035C1C00F26864 /* SeperatedNetwork.cpp in Sources */,
+				9458D03F1D04A29E00F26864 /* SeperatedNetworkImplementation.cpp in Sources */,
 				9458D01E1D01CBED00F26864 /* Network.cpp in Sources */,
 				9458D02E1D02D49E00F26864 /* Trainer.cpp in Sources */,
+				9458D03C1D04A29400F26864 /* CombinedNetworkImplementation.cpp in Sources */,
 				9458D01A1D01B06400F26864 /* Perceptron.cpp in Sources */,
 				9458D0251D01CC4C00F26864 /* Data.cpp in Sources */,
-				9458D0321D035C1400F26864 /* CombinedNetwork.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

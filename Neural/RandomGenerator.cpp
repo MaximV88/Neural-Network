@@ -62,7 +62,7 @@ RandomGenerator::RandomGenerator(double start, double end) :
 m_pimpl(new Impl(start, end))
 { }
 
-RandomGenerator::~RandomGenerator() = default;
+RandomGenerator::~RandomGenerator() { };
 
 double RandomGenerator::Random() {
     return m_pimpl->Random();
