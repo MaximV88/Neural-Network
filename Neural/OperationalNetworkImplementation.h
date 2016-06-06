@@ -43,6 +43,14 @@ public:
      */
     virtual double Estimate(const Data& input) const = 0;
     
+    /**
+     * This will serialize the network into a form that can be saved and
+     * later construct an identical network to the current one.
+     *
+     * @return A string that contains the serialized form of the network.
+     */
+    virtual std::string Serialize() const = 0;
+    
 };
 
 NAMESPACE_NEURAL_END

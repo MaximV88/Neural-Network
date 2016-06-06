@@ -16,11 +16,11 @@
 #include <iomanip>
 #include <math.h>
 
-#define SHOW_PROGRESS 1
+#define SHOW_ACCURACY 0
 
 using namespace neural;
 
-OperationalNetwork::OperationalNetwork(enum OperationalNetwork::Type type) {
+OperationalNetwork::OperationalNetwork(OperationalNetwork::Type type) {
     
     switch (type) {
         case Type::kCombined:   m_pimpl.reset(new CombinedNetworkImplementation());
@@ -53,7 +53,7 @@ std::string OperationalNetwork::Serialize() const {
         case Type::kSeperated: serialized = "Seperated\n";  break;
     }
 
-    return serialized;
+    return serialized + m_pimpl->Serialize();
 }
 
 std::string OperationalNetwork::Estimate(const std::string &data_file_path, bool log) const {
@@ -95,12 +95,10 @@ void OperationalNetwork::Train(const std::string &data_file_path, const std::str
     size_t index = 0;
     
     size_t all_records = RecordsInFile(key_file_path);
-    size_t train_limit = all_records;
     
-#ifdef SHOW_ACCURACY
+#if SHOW_ACCURACY
     
     size_t correct = 0;
-    size_t validate_limit = all_records - train_limit;
     
 #endif
     
@@ -113,31 +111,27 @@ void OperationalNetwork::Train(const std::string &data_file_path, const std::str
         
         size_t real_value = static_cast<size_t>(lround(results.Value().content.front()));
         
-        if (index < train_limit) {
-            
-            //Training session
-            m_pimpl->Train(data.Value(), real_value);
-            
-            if (log && index % (train_limit / 100) == 0)
-                std::cout
-                << std::setprecision(3)
-                << "overall progress: "
-                << index / static_cast<double>(train_limit) * 100
-                << "%\n";
-            
-        }
+        //Training session
+        m_pimpl->Train(data.Value(), real_value);
         
-#ifdef SHOW_ACCURACY
+        if (log && index % (all_records / 100) == 0)
+            std::cout
+            << std::setprecision(3)
+            << "overall progress: "
+            << index / static_cast<double>(all_records) * 100
+            << "%\n";
+        
+#if SHOW_ACCURACY
         
             //Validation session
-            if (real_value == static_cast<size_t>(lround(Estimate(data.Value()))))
+            if (real_value == static_cast<size_t>(lround(m_pimpl->Estimate(data.Value()))))
                 ++correct;
             
-            if (log && (index - train_limit) % (validate_limit / 100) == 0)
+            if (log && (index) % (all_records / 100) == 0)
                 std::cout
                 << std::setprecision(3)
                 << "correct: "
-                << correct / static_cast<double>(index - train_limit) * 100
+                << correct / static_cast<double>(index) * 100
                 << "%\n";
         
 #endif

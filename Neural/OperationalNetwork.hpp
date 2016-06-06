@@ -16,7 +16,7 @@ class Data;
 class OperationalNetwork {
 public:
     
-    enum class Type {
+    enum Type {
         kCombined,
         kSeperated
     };

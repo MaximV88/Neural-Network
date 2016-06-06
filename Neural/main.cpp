@@ -69,7 +69,7 @@ int main(int argc, char * argv[]) {
             
             //Output a serialized network into a file according to type
             std::ofstream output(output_file);
-            enum OperationalNetwork::Type network_type;
+            OperationalNetwork::Type network_type;
             
             if (*type == '1')       network_type = OperationalNetwork::Type::kSeperated;
             else if (*type == '2')  network_type = OperationalNetwork::Type::kCombined;
