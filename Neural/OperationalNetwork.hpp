@@ -16,7 +16,7 @@ class Data;
 class OperationalNetwork {
 public:
     
-    enum Type {
+    enum class Type {
         kCombined,
         kSeperated
     };
@@ -26,7 +26,7 @@ public:
      *
      * @param type The type of network to create.
      */
-    OperationalNetwork(OperationalNetwork::Type type);
+    OperationalNetwork(enum OperationalNetwork::Type type);
     
     /**
      * This will recreate the network given in the input.

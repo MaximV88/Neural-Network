@@ -76,10 +76,10 @@ private:
      * @param data  The data to conform
      * @return Data that contains the values conformed to the network.
      */
-    Data ConformData(const neural::Data &data) const;
+    Data ConformData(const Data &data) const;
     
     ///Stores the networks.
-    std::vector<std::unique_ptr<Network>> m_networks;
+    std::vector<std::unique_ptr<Network> > m_networks;
 };
 
 NAMESPACE_NEURAL_END

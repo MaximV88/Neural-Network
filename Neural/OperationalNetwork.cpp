@@ -20,7 +20,7 @@
 
 using namespace neural;
 
-OperationalNetwork::OperationalNetwork(OperationalNetwork::Type type) {
+OperationalNetwork::OperationalNetwork(enum OperationalNetwork::Type type) {
     
     switch (type) {
         case Type::kCombined:   m_pimpl.reset(new CombinedNetworkImplementation());
@@ -37,8 +37,8 @@ OperationalNetwork::OperationalNetwork(const std::string &serialized_file_path) 
     std::string contents((std::istreambuf_iterator<char>(file_stream)),
                          (std::istreambuf_iterator<char>()));
     
-    if (type == "Combined")         m_pimpl.reset(new CombinedNetworkImplementation());
-    else if (type == "Seperated")   m_pimpl.reset(new SeperatedNetworkImplementation());
+    if (type == "Combined")         m_pimpl.reset(new CombinedNetworkImplementation(contents));
+    else if (type == "Seperated")   m_pimpl.reset(new SeperatedNetworkImplementation(contents));
 }
 
 OperationalNetwork::~OperationalNetwork() { };
@@ -48,7 +48,7 @@ std::string OperationalNetwork::Serialize() const {
     std::string serialized;
     
     //Add the prefix of the network by type
-    switch (Type()) {
+    switch (m_pimpl->Type()) {
         case Type::kCombined: serialized = "Combined\n";    break;
         case Type::kSeperated: serialized = "Seperated\n";  break;
     }
@@ -74,7 +74,7 @@ std::string OperationalNetwork::Estimate(const std::string &data_file_path, bool
          test_iterator.Next(), ++index) {
         
         
-        output += std::to_string(m_pimpl->Estimate(test_iterator.Value())) + '\n';
+        output += std::to_string(static_cast<size_t>(lround(m_pimpl->Estimate(test_iterator.Value())))) + '\n';
         
         //Logging
         if (log && index % (all_values / 100) == 0)
@@ -90,7 +90,6 @@ std::string OperationalNetwork::Estimate(const std::string &data_file_path, bool
 
 void OperationalNetwork::Train(const std::string &data_file_path, const std::string &key_file_path, bool log) {
         
-    //Train for all given values
     //Train all networks
     size_t index = 0;
     

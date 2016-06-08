@@ -44,7 +44,7 @@ int main(int argc, char * argv[]) {
         char* type              = GetOption(argv, argv + argc, "-u");
         
         //Check that the data is valid
-        if (!type) {
+        if (!type && !serialized_file) {
             std::cerr << "Network type must be specified via -u";
             return 0;
         }

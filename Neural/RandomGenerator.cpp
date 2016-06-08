@@ -35,20 +35,19 @@ public:
 private:
     
     //Get random number from hardware
-    std::random_device m_random_device;
+    std::default_random_engine m_random_engine;
     
     //The random generator
     std::mt19937 m_generator;
     
     //Defines the range
-    std::uniform_int_distribution<> m_uniform_distribution;
+    std::uniform_int_distribution<double> m_uniform_distribution;
 };
 
 #pragma mark - Implementation
 
 RandomGenerator::Impl::Impl(double start, double end) :
-m_random_device(),
-m_generator(m_random_device()),
+m_generator(m_random_engine()),
 m_uniform_distribution(start, end)
 { }
 
