@@ -54,8 +54,8 @@
 		9458D03D1D04A29E00F26864 /* SeperatedNetworkImplementation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SeperatedNetworkImplementation.cpp; sourceTree = "<group>"; };
 		9458D03E1D04A29E00F26864 /* SeperatedNetworkImplementation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SeperatedNetworkImplementation.hpp; sourceTree = "<group>"; };
 		9458D0401D04A2AD00F26864 /* OperationalNetworkImplementation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OperationalNetworkImplementation.h; sourceTree = "<group>"; };
-		9458D0451D08419000F26864 /* Readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 		9458D0471D08419600F26864 /* makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = makefile; sourceTree = "<group>"; };
+		9458D0491D0842AF00F26864 /* Readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Readme.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +72,7 @@
 		9458D0041D01B01D00F26864 = {
 			isa = PBXGroup;
 			children = (
+				9458D0491D0842AF00F26864 /* Readme.md */,
 				9458D00F1D01B01D00F26864 /* Neural */,
 				9458D00E1D01B01D00F26864 /* Products */,
 			);
@@ -88,7 +89,6 @@
 		9458D00F1D01B01D00F26864 /* Neural */ = {
 			isa = PBXGroup;
 			children = (
-				9458D0451D08419000F26864 /* Readme.md */,
 				9458D0471D08419600F26864 /* makefile */,
 				9458D01B1D01B06F00F26864 /* Definitions.h */,
 				9458D02F1D035BEB00F26864 /* Types */,
