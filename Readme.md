@@ -4,11 +4,13 @@ Neural is a basic neural network that is operated via the command line, which is
 <br>
 Made with C++11. 
 
-####Install
+###Install
 
 Run 'make' command in the folder directory.
 
-Usage:<br>
+
+###Usage
+
 -i  Specifies the input data file that has the raw data as 784 pixels per each read. <br>
 -k  Specifies the key file that holds the answers for the given data file. <br>
 -o  Specifies the name of the output file. <br>
