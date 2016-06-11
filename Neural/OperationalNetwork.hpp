@@ -10,6 +10,7 @@
 #define OperationalNetwork_hpp
 #include "Definitions.h"
 #include <string>
+#include <memory>
 NAMESPACE_NEURAL_BEGIN
 class Data;
 

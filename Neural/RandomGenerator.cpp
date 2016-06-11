@@ -7,7 +7,8 @@
 //
 
 #include "RandomGenerator.hpp"
-#include <random>
+//#include <random>
+#include <stdlib.h>
 
 using namespace neural;
 
@@ -33,26 +34,37 @@ public:
     double Random();
     
 private:
+
+#warning Not supported in C++0x
     
-    //Get random number from hardware
-    std::default_random_engine m_random_engine;
+//    //Get random number from hardware
+//    std::default_random_engine m_random_engine;
+//    
+//    //The random generator
+//    std::mt19937 m_generator;
+//    
+//    //Defines the range
+//    std::uniform_int_distribution<double> m_uniform_distribution;
     
-    //The random generator
-    std::mt19937 m_generator;
-    
-    //Defines the range
-    std::uniform_int_distribution<double> m_uniform_distribution;
+    double m_start;
+    double m_end;
 };
 
 #pragma mark - Implementation
 
 RandomGenerator::Impl::Impl(double start, double end) :
-m_generator(m_random_engine()),
-m_uniform_distribution(start, end)
-{ }
+//m_generator(m_random_engine()),
+//m_uniform_distribution(start, end)
+m_start(start),
+m_end(end){
+
+    srand(time(NULL));
+
+}
 
 double RandomGenerator::Impl::Random() {
-    return m_uniform_distribution(m_generator);
+//    return m_uniform_distribution(m_generator);
+    return ((double)rand() / (double)RAND_MAX) * 2 - 1;
 }
 
 #pragma mark - RandomGenerator

@@ -74,7 +74,7 @@ std::string OperationalNetwork::Estimate(const std::string &data_file_path, bool
          test_iterator.Next(), ++index) {
         
         
-        output += std::to_string(static_cast<size_t>(lround(m_pimpl->Estimate(test_iterator.Value())))) + '\n';
+        output += std::to_string(static_cast<unsigned long long>(lround(m_pimpl->Estimate(test_iterator.Value())))) + '\n';
         
         //Logging
         if (log && index % (all_values / 100) == 0)

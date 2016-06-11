@@ -1,2 +1,2 @@
 all:
-	g++ -std=c++11 RandomGenerator.cpp CombinedNetworkImplementation.cpp SeperatedNetworkImplementation.cpp OperationalNetwork.cpp DataIterator.cpp Data.cpp Perceptron.cpp Network.cpp main.cpp -O2 -w -o neural
+	g++ -std=c++0x RandomGenerator.cpp CombinedNetworkImplementation.cpp SeperatedNetworkImplementation.cpp OperationalNetwork.cpp DataIterator.cpp Data.cpp Perceptron.cpp Network.cpp main.cpp -O2 -w -o neural

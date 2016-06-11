@@ -28,7 +28,7 @@ public:
      * @param perceptrons   Number of perceptrons in the starting layer.
      * @param previous      The previous network that the new one is connected to.
      */
-    Impl(size_t perceptrons, Network::Impl* previous = nullptr);
+    Impl(size_t perceptrons, Network::Impl* previous = NULL);
     
     /**
      * Constructor.
@@ -112,16 +112,17 @@ private:
     std::vector<std::unique_ptr<Perceptron>> m_perceptrons;
     
     ///Stores the next network to propogate signals to
-    Network::Impl* m_next = nullptr;
+    Network::Impl* m_next;
     
     ///Stores the previous network to back propogate errors to
-    Network::Impl* m_previous = nullptr;
+    Network::Impl* m_previous;
     
 };
 
 #pragma mark - Implementation
 
 Network::Impl::Impl(size_t perceptrons, Network::Impl* previous) :
+m_next(NULL),
 m_previous(previous) {
     
 
@@ -135,7 +136,9 @@ m_previous(previous) {
     }
 }
 
-Network::Impl::Impl(const std::string& serialized) {
+Network::Impl::Impl(const std::string& serialized) :
+m_next(NULL),
+m_previous(NULL) {
     
     //Deserialize the input manually for networks
     std::stringstream string_stream(serialized);
@@ -267,7 +270,7 @@ std::string Network::Impl::Serialize() const {
      * next layer. In this way it is possible to deserialize 
      * according to construction order.
      */
-    std::string serialized = std::to_string(m_perceptrons.size()) + '\n';
+    std::string serialized = std::to_string(static_cast<unsigned long long>(m_perceptrons.size())) + '\n';
     for (size_t index = 0, total = m_perceptrons.size() ; index < total ; index++) {
         serialized += m_perceptrons[index]->Serialize() + '\n';
     }

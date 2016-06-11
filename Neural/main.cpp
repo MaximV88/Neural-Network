@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 #include "OperationalNetwork.hpp"
 
 using namespace neural;

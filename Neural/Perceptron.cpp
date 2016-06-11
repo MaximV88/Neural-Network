@@ -84,13 +84,13 @@ void Perceptron::Train(double delta, const std::vector<double> &omicron) {
 std::string Perceptron::Serialize() const {
     
     //Serialize by order of: bias - learning constant - weight count - weights
-    std::string serialized =  std::to_string(m_bias) +
-    ':' + std::to_string(m_learning_constant) +
-    ':' + std::to_string(m_weights.size()) +
+    std::string serialized =  std::to_string(static_cast<long double>(m_bias)) +
+    ':' + std::to_string(static_cast<long double>(m_learning_constant)) +
+    ':' + std::to_string(static_cast<unsigned long long>(m_weights.size())) +
     ':';
     
     for (size_t index = 0, total = m_weights.size() ; index < total ; index++)
-        serialized += std::to_string(m_weights[index]) + ',';
+        serialized += std::to_string(static_cast<long double>(m_weights[index])) + ',';
     
     return serialized;
 }

@@ -69,14 +69,14 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-t output.txt"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-u 1"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-o estimate.txt"
+            argument = "-o output.txt"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
